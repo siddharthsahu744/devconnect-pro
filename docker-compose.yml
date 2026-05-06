@@ -1,0 +1,27 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Sid7000  # Maine ye change kiya hai
+      POSTGRES_DB: devconnect
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: sidsahu7000/devconnect-pro:v1
+    build: .
+    restart: on-failure
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/devconnect
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Sid7000
+    depends_on:
+      - database
+
+volumes:
+  postgres_data:
